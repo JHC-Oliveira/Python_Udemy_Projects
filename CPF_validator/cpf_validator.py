@@ -26,26 +26,36 @@ cpf: 746.824.890-70
 # 70  36 48 56 ....... 14  = SUM
 """
 
-cpf = '746.824.890-70'
+import re
+import sys
+
+cpf = input('CPF ex:[746.824.890-70]: ')
+
+#USING REGULAR EXPRESSION TO TAKE ANY SPECIAL CHARACTERE THAT IS NOT A NUMBER
+cpf_given = re.sub(
+    r'[^0-9]',
+    '',
+    cpf
+)
+
+#CHECKING IF THE NUMBER ARE NOT SEQUENTIAL
+sequencial_input = cpf == cpf[0] * len(cpf)
+if sequencial_input:
+    print('You digited sequential data')
+    sys.exit()
 
 #-----------------------------FIRST DIGIT-----------------------------------------
 
-#TAKING OUT THE LAST PART AND ALSO THE '.' FROM THE CPF
-cpf_splited = cpf.split('-')[0].split('.')
+#GET ALL THE 9 DIGITS IN OLNY ONE STRING 
+cpf_9_digit = cpf_given[:9]      
 
-
-#LOOP TO GET ALL THE 9 DIGITS IN OLNY ONE STRING 
-cpf_9_digit = ""
-for three_nb in cpf_splited:
-    for nb in three_nb:
-        cpf_9_digit += nb       
 
 #TAKING EACH INDEX AND MULTIPLYING STARTING FROM 10 DECREASINGLY
 sum_first_digits = 0
-counter = 0
-for i in range(10, 2, -1):
-    sum_first_digits += i * int(cpf_9_digit[counter])
-    counter += 1
+counter = 10
+for number in cpf_9_digit:
+    sum_first_digits += int(number) * counter
+    counter -= 1
 
 #MULTIPLYING BY 10
 value_multiplied = sum_first_digits * 10   
@@ -56,7 +66,6 @@ rest_value = value_multiplied % 11
 #FIRST VALUE AFTER "-"
 first_digit = rest_value if rest_value <= 9 else 0
 
-# print(first_digit)
 
 #-----------------------------SECOND DIGIT-----------------------------------------
 
@@ -73,5 +82,9 @@ value_multiplied = sum_second_digits * 10
 rest_value = value_multiplied % 11
 second_digit = rest_value if rest_value <= 9 else 0
 
-print(first_digit)
-print(second_digit)
+cpf_generated = f'{cpf_9_digit}{first_digit}{second_digit}'
+
+if cpf_given == cpf_generated:
+    print('Valid CPF')
+else:
+    print('Invalid CPF')
