@@ -27,7 +27,7 @@ right_answers_total = 0
 
 #First for to take the question
 for question in questions:
-    print(f'Question: {question['Question']}\n')
+    print(f'Question: {question['Question']}')
     print('Options:')
     
     #Using enumerate and the dictionary value to print the options
@@ -35,14 +35,31 @@ for question in questions:
         print(f'{option_number}) {option_answers}')
     print()
     
-    #Reading answer and converting it to int to check the value index in the options list
-    #If it's right it shows right and add to right answers otherwise it says wrong answer
-    answer = int(input('Answer: '))    
-    if question['Options'][answer] == question['Answer']:
-        print(f'{question["Answer"]}, Right answer! ✅\n')
-        right_answers_total += 1
+   
+    answer = input('Answer: ')
+    
+    #Variables to store an int number, and check if it is the right answer
+    int_answer = None
+    right_answer = False
+    
+    #Storing the variable in case it's a digit
+    if answer.isdigit():
+        int_answer = int(answer)
+    
+    #Checking if it's not a digit, and if it's not in the range of the questions   
+    if int_answer is not None:  
+        if int_answer >= 0 and int_answer < len(question['Options']): 
+            if question['Options'][int_answer] == question['Answer']:
+                right_answer = True
+                right_answers_total += 1                    
     else:
-        print(f'{question["Options"][answer]}, Wrong answer! ❌\n')
+        print("You should provide a valid option")
+    
+    #Outputs   
+    if right_answer:
+        print(f'{question["Answer"]}, Right answer! ✅\n')
+    else:
+        print('Wrong answer! ❌\n')
 
 #Showing the outcome of total right answers       
-print(f'You got {right_answers_total} out of {len(questions)} questions right ')   
+print(f'You got {right_answers_total} out of {len(questions)} questions right ')
