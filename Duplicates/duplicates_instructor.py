@@ -26,36 +26,20 @@ list_of_lists_of_integers = [
     [10, 9, 8, 7, 6, 5, 4, 3, 2, 1],
 ]
 
-#taking each list inside the list
-for item in list_of_lists_of_integers:
+def find_first_duplicate(list_of_numbers):
+    checked_numbers = set()
+    first_duplicated = -1
     
-    integers_set = set()
-    
-    #initiating duplicated list to store only the duplicatedes
-    duplicated_list = set()
-    first_index_duplicated = 50
-    
-    #taking each number and index inside of the list
-    for index, number in enumerate(item):   
-        
-        #checking if this number is already in the set
-        if number in integers_set:
-            duplicated_list.add(number)
+    for number in list_of_numbers: 
+           
+        if number in checked_numbers:
+            first_duplicated = number
+            break
             
-            #taking the first duplicated by checking index
-            if index < first_index_duplicated:
-                first_index_duplicated = index
-                 
-        integers_set.add(number)
+        checked_numbers.add(number)
+        
+    return first_duplicated
     
-    #print outcome for each list
-    print(item)   
-    if first_index_duplicated == 50:
-        print('No duplicates ','-1')
-    else:
-        print('Duplicatedes', duplicated_list)
-        print('First duplicated appearence:', item[first_index_duplicated])                
-    print()
-         
+for item in list_of_lists_of_integers:
+    print(item, find_first_duplicate(item))
    
-    
